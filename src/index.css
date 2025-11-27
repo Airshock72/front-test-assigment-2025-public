@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@import "./assets/styles/base.css";
+@import "./assets/styles/themes.css";
+@import "./assets/styles/utilities.css";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/*FONTS*/
+@font-face {
+    font-family: FiraGo;
+    src: url('./assets/fonts/FiraGO-Regular.ttf') format('truetype');
+    font-weight: 400; /*REGULAR*/
+}
+
+@font-face {
+    font-family: FiraGo;
+    src: url('./assets/fonts/FiraGO-SemiBold.ttf') format('truetype');
+    font-weight: 600; /*SEMIBOLD*/
+}
+
+@font-face {
+    font-family: FiraGo;
+    src: url('./assets/fonts/FiraGO-Bold.ttf');
+    font-weight: 700; /*BOLD*/
+}
