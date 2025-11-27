@@ -3,8 +3,6 @@ import { AggregatedData, Aggregation, Campaign, Metric, SortByType } from 'src/m
 import { aggregateMetrics } from 'src/modules/home/helpers'
 
 interface UseIndexPage {
-    campaigns: Array<Campaign>
-    metrics: Array<Metric>
     loading: boolean
     sorted: Array<AggregatedData>
     aggregation: Aggregation
@@ -47,8 +45,6 @@ const useIndexPage = (): UseIndexPage => {
   }, [aggregated, sortBy, sortAsc])
 
   return {
-    campaigns,
-    metrics,
     loading,
     sorted,
     aggregation,

@@ -1,13 +1,12 @@
 import useIndexPage from 'src/modules/home/hooks/useIndexPage.ts'
 import { Aggregation } from 'src/modules/home/types'
 import TimelineChart from 'src/modules/home/views/TimelineChart.tsx'
+import DataTable from 'src/modules/home/views/DataTable.tsx'
 
 const IndexPage = () => {
 
   const {
     loading,
-    metrics,
-    campaigns,
     sorted,
     aggregation,
     setAggregation,
@@ -42,7 +41,13 @@ const IndexPage = () => {
 
       {/* Data Table */}
       <div>
-        {/*<DataTable />*/}
+        <DataTable
+          data={sorted}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          sortAsc={sortAsc}
+          setSortAsc={setSortAsc}
+        />
       </div>
     </div>
   )
