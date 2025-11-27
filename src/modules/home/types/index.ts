@@ -21,3 +21,7 @@ export type AggregatedData = {
     totalClicks: number
     totalRevenue: number
 }
+
+export type Aggregation = 'hourly' | 'daily' | 'weekly' | 'monthly';
+
+export type SortByType = 'date' | 'revenue'

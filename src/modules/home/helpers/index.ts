@@ -1,8 +1,8 @@
 import { groupBy } from 'lodash'
-import { AggregatedData, Metric } from 'src/modules/home/types'
+import { AggregatedData, Aggregation, Metric } from 'src/modules/home/types'
 
 // Helper to format Date objects
-const formatDate = (date: Date, type: 'hourly' | 'daily' | 'weekly' | 'monthly') => {
+const formatDate = (date: Date, type: Aggregation) => {
   switch (type) {
   case 'hourly':
     return date.toISOString().slice(0, 13) // "2025-11-24T12"
@@ -18,9 +18,9 @@ const formatDate = (date: Date, type: 'hourly' | 'daily' | 'weekly' | 'monthly')
 }
 
 export const aggregateMetrics = (
-  metrics: Metric[],
-  aggregation: 'hourly' | 'daily' | 'weekly' | 'monthly'
-): AggregatedData[] => {
+  metrics: Array<Metric>,
+  aggregation: Aggregation
+): Array<AggregatedData> => {
   // Group metrics by aggregation key
   const grouped = groupBy(metrics, m => formatDate(new Date(m.timestamp), aggregation))
 
