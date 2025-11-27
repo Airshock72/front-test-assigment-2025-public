@@ -1,5 +1,6 @@
 import useIndexPage from 'src/modules/home/hooks/useIndexPage.ts'
 import { Aggregation } from 'src/modules/home/types'
+import TimelineChart from 'src/modules/home/views/TimelineChart.tsx'
 
 const IndexPage = () => {
 
@@ -36,12 +37,12 @@ const IndexPage = () => {
 
       {/* Timeline Chart */}
       <div className='mb-8'>
-        <TimelineChart />
+        <TimelineChart data={sorted} />
       </div>
 
       {/* Data Table */}
       <div>
-        <DataTable />
+        {/*<DataTable />*/}
       </div>
     </div>
   )
