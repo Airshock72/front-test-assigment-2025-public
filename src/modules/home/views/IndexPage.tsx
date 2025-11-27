@@ -3,6 +3,7 @@ import useIndexPage from 'src/modules/home/hooks/useIndexPage.ts'
 const IndexPage = () => {
 
   const {
+    loading,
     metrics,
     campaigns
   } = useIndexPage()

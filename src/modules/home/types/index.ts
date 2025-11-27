@@ -10,8 +10,14 @@ export interface Metric {
     timestamp: string
     impressions: number
     clicks: number
-    spend: number
+    revenue: number
 }
 
 
-export type Aggregation = 'hourly' | 'daily' | 'weekly' | 'monthly';
+export type AggregatedData = {
+    date: string
+    campaignsActive: number
+    totalImpressions: number
+    totalClicks: number
+    totalRevenue: number
+}
