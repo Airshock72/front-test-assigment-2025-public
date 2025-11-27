@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import { RouteType } from 'api/core'
+import MainLayout from 'src/layouts/MainLayout.tsx'
 
 const routesFromContext = (): Array<RouteType> => {
   const moduleRoutes: Array<RouteType> = []
@@ -17,7 +18,7 @@ export const routes = routesFromContext()
 const App = () => {
   return (
     <Routes>
-      <Route element={<div>Initialized Project</div>}>
+      <Route element={<MainLayout />}>
         {routes.map((el, index) => (
           <Route
             key={index}
