@@ -1,17 +1,17 @@
-import { Layout } from 'antd'
+
 import { Outlet } from 'react-router-dom'
-import { Content } from 'antd/es/layout/layout'
 
 const MainLayout = () => {
   return (
-    <Layout className='h-dvh'>
-      <Layout>
-        <Content className='bg-slate-100 p-5 overflow-auto'>
+    <div className='h-dvh flex flex-col'>
+      <div className='flex flex-1'>
+        <main className='flex-1 bg-slate-100 p-5 overflow-auto'>
           <Outlet />
-        </Content>
-      </Layout>
-    </Layout>
+        </main>
+      </div>
+    </div>
   )
+
 }
 
 export default MainLayout

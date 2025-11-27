@@ -42,8 +42,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          react: ['react', 'react-dom'],
-          antd: ['antd']
+          react: ['react', 'react-dom']
         }
       }
     }
