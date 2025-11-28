@@ -1,10 +1,10 @@
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
-import { AggregatedData, Aggregation, Campaign, Metric, SortByType } from 'src/modules/home/types'
+import { useEffect, useMemo, useState, useCallback, Dispatch, SetStateAction } from 'react'
+import { AggregatedData, Aggregation, Metric, SortByType } from 'src/modules/home/types'
 import { aggregateMetrics } from 'src/modules/home/helpers'
 
 interface UseIndexPage {
     loading: boolean
-    sorted: Array<AggregatedData>
+    sorted: AggregatedData[]
     aggregation: Aggregation
     setAggregation: Dispatch<SetStateAction<Aggregation>>
     setSortBy: Dispatch<SetStateAction<SortByType>>
@@ -14,35 +14,53 @@ interface UseIndexPage {
 }
 
 const useIndexPage = (): UseIndexPage => {
-  const [campaigns, setCampaigns] = useState<Array<Campaign>>([])
-  const [metrics, setMetrics] = useState<Array<Metric>>([])
+  const [metrics, setMetrics] = useState<Metric[]>([])
   const [loading, setLoading] = useState(true)
+
   const [aggregation, setAggregation] = useState<Aggregation>('hourly')
   const [sortBy, setSortBy] = useState<SortByType>('date')
   const [sortAsc, setSortAsc] = useState(true)
 
+  // Data fetching
   useEffect(() => {
-    fetch('/data.json')
-      .then(res => res.json())
-      .then(data => {
-        setCampaigns(data.campaigns)
+    const loadData = async () => {
+      try {
+        const res = await fetch('/data.json')
+        const data = await res.json()
         setMetrics(data.metrics)
-      })
-      .catch(err => console.error('Failed to fetch data:', err))
-      .finally(() => setLoading(false))
+      } catch (err) {
+        console.error('Failed to fetch data:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData().then()
   }, [])
 
-  const aggregated: Array<AggregatedData> = useMemo(() => {
-    return aggregateMetrics(metrics, aggregation)
-  }, [metrics, aggregation])
+  // Aggregation
+  const aggregated = useMemo(
+    () => aggregateMetrics(metrics, aggregation),
+    [metrics, aggregation]
+  )
 
+  // Sort accessor
+  const getSortValue = useCallback(
+    (item: AggregatedData) =>
+      sortBy === 'date'
+        ? new Date(item.periodStart).getTime()
+        : item.totalRevenue,
+    [sortBy]
+  )
+
+  // Sorting
   const sorted = useMemo(() => {
     return [...aggregated].sort((a, b) => {
-      const valA = sortBy === 'date' ? new Date(a.date).getTime() : a.totalRevenue
-      const valB = sortBy === 'date' ? new Date(b.date).getTime() : b.totalRevenue
+      const valA = getSortValue(a)
+      const valB = getSortValue(b)
       return sortAsc ? valA - valB : valB - valA
     })
-  }, [aggregated, sortBy, sortAsc])
+  }, [aggregated, getSortValue, sortAsc])
 
   return {
     loading,
