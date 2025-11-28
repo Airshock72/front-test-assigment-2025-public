@@ -87,3 +87,10 @@ export const aggregateMetrics = (
     })
     .sort((a, b) => +new Date(a.periodStart) - +new Date(b.periodStart))
 }
+
+export const AGG_OPTIONS: Array<{ label: string; value: Aggregation }> = [
+  { label: 'Hourly', value: 'hourly' },
+  { label: 'Daily', value: 'daily' },
+  { label: 'Weekly', value: 'weekly' },
+  { label: 'Monthly', value: 'monthly' }
+]
