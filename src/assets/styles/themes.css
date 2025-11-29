@@ -1,0 +1,50 @@
+@theme {
+    /*here you can override anything*/
+
+    /*Breakpoint prefix	Minimum width	CSS*/
+    /*sm	40rem (640px)	@media (width >= 40rem) { ... }*/
+    /*md	48rem (768px)	@media (width >= 48rem) { ... }*/
+    /*lg	64rem (1024px)	@media (width >= 64rem) { ... }*/
+    /*xl	80rem (1280px)	@media (width >= 80rem) { ... }*/
+    /*2xl	96rem (1536px)	@media (width >= 96rem) { ... }*/
+
+    --color-primary-50: #649FF8;
+    --color-primary-50-hover: #9cc4ff;
+
+    --color-primary-dark: #151d48;
+    --color-primary-dark-hover: #2e3c6c;
+    --color-geek-blue: #5294F880;
+    --color-primary-light: #f0f4ff;
+
+    --color-secondary-light-50: #96a5b8;
+    --color-secondary-light: #737791;
+    --color-bg-secondary-light: #f6f8ff;
+
+    --font-family-fira-go: 'FiraGo', sans-serif;
+}
+
+@layer theme {
+    :root {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-primary-50);
+        border-radius: 50px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #4d8df5;
+    }
+}

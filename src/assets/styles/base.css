@@ -1,0 +1,7 @@
+@layer base {
+    *
+    {
+        font-family: var(--font-family-fira-go), sans-serif;
+        font-weight: 500;
+    }
+}
