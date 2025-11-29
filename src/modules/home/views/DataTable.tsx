@@ -1,8 +1,10 @@
 import { Dispatch, SetStateAction } from 'react'
 import { AggregatedData, SortByType } from 'src/modules/home/types'
+import Pagination from 'core/components/Pagination.tsx'
+import useDataTable from 'src/modules/home/hooks/useDataTable.ts'
 
 interface DataTableProps {
-    data: Array<AggregatedData>
+    data: AggregatedData[]
     sortBy: SortByType
     setSortBy: Dispatch<SetStateAction<SortByType>>
     sortAsc: boolean
@@ -11,47 +13,80 @@ interface DataTableProps {
 
 const DataTable = ({
   data,
-  sortAsc,
   sortBy,
+  sortAsc,
   setSortBy,
   setSortAsc
 }: DataTableProps) => {
-
-  const toggleSort = (column: SortByType) => {
-    if (sortBy === column) setSortAsc(!sortAsc)
-    else {
-      setSortBy(column)
-      setSortAsc(true)
-    }
-  }
+  const {
+    pageData,
+    setPage,
+    page,
+    pageSize,
+    toggleSort
+  } = useDataTable({ data })
 
   return (
-    <table className='w-full border-collapse border border-gray-300'>
-      <thead>
-        <tr className='bg-gray-100'>
-          <th className='border p-2 cursor-pointer' onClick={() => toggleSort('date')}>
-                    Date {sortBy === 'date' ? (sortAsc ? '▲' : '▼') : ''}
-          </th>
-          <th className='border p-2'>Campaigns Active</th>
-          <th className='border p-2'>Impressions</th>
-          <th className='border p-2'>Clicks</th>
-          <th className='border p-2 cursor-pointer' onClick={() => toggleSort('revenue')}>
-                    Revenue {sortBy === 'revenue' ? (sortAsc ? '▲' : '▼') : ''}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row, idx) => (
-          <tr key={idx} className='hover:bg-gray-50'>
-            <td className='border p-2'>{row.date}</td>
-            <td className='border p-2'>{row.campaignsActive}</td>
-            <td className='border p-2'>{row.totalImpressions}</td>
-            <td className='border p-2'>{row.totalClicks}</td>
-            <td className='border p-2'>{row.totalRevenue.toFixed(2)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className='bg-white/5 backdrop-blur-md rounded-xl shadow-xl border border-white/10'>
+      <div className='overflow-x-auto'>
+        <table className='w-full min-w-[720px] border-collapse'>
+          <thead>
+            <tr className='bg-white/5'>
+              <th
+                className='border-b border-white/10 p-3 text-left text-sm font-semibold text-slate-100 cursor-pointer'
+                onClick={() => toggleSort('date', sortBy, setSortAsc, sortAsc, setSortBy)}
+              >Date {sortBy === 'date' && (sortAsc ? '▲' : '▼')}
+              </th>
+              <th className='border-b border-white/10 p-3 text-left text-sm font-semibold text-slate-200'>
+                  Campaigns Active
+              </th>
+              <th className='border-b border-white/10 p-3 text-left text-sm font-semibold text-slate-200'>
+                  Impressions
+              </th>
+              <th className='border-b border-white/10 p-3 text-left text-sm font-semibold text-slate-200'>
+                  Clicks
+              </th>
+              <th
+                className='border-b border-white/10 p-3 text-left text-sm font-semibold text-slate-200 cursor-pointer'
+                onClick={() => toggleSort('revenue', sortBy, setSortAsc, sortAsc, setSortBy)}
+              >Revenue {sortBy === 'revenue' && (sortAsc ? '▲' : '▼')}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {pageData.map((row, idx) => (
+              <tr key={row.periodStart ?? idx} className='hover:bg-white/10 transition-colors'>
+                <td className='border-b border-white/10 p-3 text-sm text-slate-200 whitespace-nowrap'>
+                  {row.label}
+                </td>
+                <td className='border-b border-white/10 p-3 text-sm text-slate-200'>
+                  {row.campaignsActive}
+                </td>
+                <td className='border-b border-white/10 p-3 text-sm text-slate-200'>
+                  {row.totalImpressions}
+                </td>
+                <td className='border-b border-white/10 p-3 text-sm text-slate-200'>
+                  {row.totalClicks}
+                </td>
+                <td className='border-b border-white/10 p-3 text-sm text-slate-200'>
+                  {row.totalRevenue.toFixed(2)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <Pagination
+        data={data}
+        page={page}
+        pageSize={pageSize}
+        sortAsc={sortAsc}
+        setPage={setPage}
+        sortBy={sortBy}
+      />
+    </div>
   )
 }
 
